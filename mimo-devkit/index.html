@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiMo DevKit - AI Developer Toolkit</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="6" fill="#6366f1"/>
+            <path d="M7 14L12 9L14 11L10 15L14 19L12 21L7 14Z" fill="white"/>
+            <path d="M21 14L16 19L14 17L18 13L14 9L16 7L21 14Z" fill="white"/>
+          </svg>
+          <span class="logo-text">MiMo DevKit</span>
+        </div>
+        <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-page="chat">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>AI Chat</span>
+        </a>
+        <a href="#" class="nav-item" data-page="code">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          <span>Code Assistant</span>
+        </a>
+        <a href="#" class="nav-item" data-page="translator">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg>
+          <span>Translator</span>
+        </a>
+        <a href="#" class="nav-item" data-page="doc-analyzer">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span>Doc Analyzer</span>
+        </a>
+        <a href="#" class="nav-item" data-page="image-analyzer">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Image Analyzer</span>
+        </a>
+
+        <div class="nav-divider"></div>
+
+        <a href="#" class="nav-item" data-page="writing">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <span>Writing Assistant</span>
+        </a>
+        <a href="#" class="nav-item" data-page="tts">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          <span>Text-to-Speech</span>
+        </a>
+        <a href="#" class="nav-item" data-page="prompts">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span>Prompt Library</span>
+        </a>
+
+        <div class="nav-divider"></div>
+
+        <a href="#" class="nav-item" data-page="json">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>JSON Tools</span>
+        </a>
+        <a href="#" class="nav-item" data-page="regex">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Regex Helper</span>
+        </a>
+        <a href="#" class="nav-item" data-page="dashboard">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+          <span>Dashboard</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="settings-btn" id="settingsBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Settings</span>
+        </button>
+        <div class="api-status" id="apiStatus">
+          <span class="status-dot offline"></span>
+          <span class="status-text">API not configured</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Settings Modal -->
+      <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+          <div class="modal-header">
+            <h2>Settings</h2>
+            <button class="modal-close" id="closeSettings">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="apiKey">MiMo API Key</label>
+              <div class="input-with-btn">
+                <input type="password" id="apiKey" placeholder="Enter your MiMo API key" />
+                <button class="btn-icon" id="toggleApiKey" title="Show/Hide">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <p class="form-hint">Get your API key from <a href="https://mimo-v2.com/settings/api-keys" target="_blank">MiMo Platform</a></p>
+            </div>
+            <div class="form-group">
+              <label for="defaultModel">Default Model</label>
+              <select id="defaultModel">
+                <option value="mimo-v2.5-pro">MiMo V2.5 Pro (Flagship)</option>
+                <option value="mimo-v2.5">MiMo V2.5 (Multimodal)</option>
+                <option value="mimo-v2-pro">MiMo V2 Pro</option>
+                <option value="mimo-v2-omni">MiMo V2 Omni (Multimodal)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="thinkingMode">Thinking Mode</label>
+              <div class="toggle-switch">
+                <input type="checkbox" id="thinkingMode" />
+                <label for="thinkingMode" class="toggle-label"></label>
+                <span>Enable deep thinking (shows reasoning process)</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="temperature">Temperature: <span id="tempValue">0.7</span></label>
+              <input type="range" id="temperature" min="0" max="2" step="0.1" value="0.7" />
+            </div>
+            <button class="btn btn-primary" id="saveSettings">Save Settings</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Page -->
+      <div class="page active" id="page-chat">
+        <div class="page-header">
+          <h1>AI Chat</h1>
+          <div class="header-actions">
+            <select class="model-select" id="chatModel">
+              <option value="mimo-v2.5-pro">V2.5 Pro</option>
+              <option value="mimo-v2.5">V2.5</option>
+              <option value="mimo-v2-pro">V2 Pro</option>
+              <option value="mimo-v2-omni">V2 Omni</option>
+            </select>
+            <button class="btn btn-outline" id="clearChat">Clear Chat</button>
+          </div>
+        </div>
+        <div class="chat-container" id="chatContainer">
+          <div class="chat-welcome">
+            <div class="welcome-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <h2>Chat with MiMo AI</h2>
+            <p>Start a conversation with Xiaomi's powerful MiMo models. Ask questions, get help with code, or explore ideas.</p>
+            <div class="quick-prompts">
+              <button class="quick-prompt" data-prompt="Explain quantum computing in simple terms">Explain quantum computing</button>
+              <button class="quick-prompt" data-prompt="Write a Python function to sort a list using merge sort with detailed comments">Write merge sort in Python</button>
+              <button class="quick-prompt" data-prompt="What are the best practices for building REST APIs?">REST API best practices</button>
+              <button class="quick-prompt" data-prompt="Help me understand async/await in JavaScript">Explain async/await</button>
+            </div>
+          </div>
+          <div class="chat-messages" id="chatMessages"></div>
+        </div>
+        <div class="chat-input-area">
+          <div class="chat-input-wrapper">
+            <textarea id="chatInput" placeholder="Type your message..." rows="1"></textarea>
+            <button class="send-btn" id="sendBtn" title="Send message">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+          <p class="input-hint">Press Enter to send, Shift+Enter for new line</p>
+        </div>
+      </div>
+
+      <!-- Code Assistant Page -->
+      <div class="page" id="page-code">
+        <div class="page-header">
+          <h1>Code Assistant</h1>
+          <div class="header-actions">
+            <select class="model-select" id="codeModel">
+              <option value="mimo-v2.5-pro">V2.5 Pro</option>
+              <option value="mimo-v2-pro">V2 Pro</option>
+            </select>
+          </div>
+        </div>
+        <div class="code-assistant-layout">
+          <div class="code-panel">
+            <div class="panel-header">
+              <span>Your Code</span>
+              <select id="codeLanguage">
+                <option value="auto">Auto Detect</option>
+                <option value="python">Python</option>
+                <option value="javascript">JavaScript</option>
+                <option value="typescript">TypeScript</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="go">Go</option>
+                <option value="rust">Rust</option>
+                <option value="php">PHP</option>
+                <option value="ruby">Ruby</option>
+                <option value="swift">Swift</option>
+              </select>
+            </div>
+            <textarea id="codeInput" class="code-textarea" placeholder="Paste your code here..."></textarea>
+            <div class="code-actions">
+              <button class="btn btn-primary" id="reviewCode">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Review Code
+              </button>
+              <button class="btn btn-secondary" id="optimizeCode">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                Optimize
+              </button>
+              <button class="btn btn-secondary" id="explainCode">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                Explain
+              </button>
+              <button class="btn btn-secondary" id="generateTests">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                Generate Tests
+              </button>
+            </div>
+          </div>
+          <div class="result-panel">
+            <div class="panel-header">
+              <span>Result</span>
+              <button class="btn-icon" id="copyResult" title="Copy result">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+            <div id="codeResult" class="result-content">
+              <div class="result-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                <p>Paste code and select an action to get AI-powered insights</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Translator Page -->
+      <div class="page" id="page-translator">
+        <div class="page-header">
+          <h1>Smart Translator</h1>
+        </div>
+        <div class="translator-layout">
+          <div class="translator-panel">
+            <div class="panel-header">
+              <select id="sourceLang">
+                <option value="auto">Auto Detect</option>
+                <option value="en">English</option>
+                <option value="zh">Chinese</option>
+                <option value="ja">Japanese</option>
+                <option value="ko">Korean</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="id">Indonesian</option>
+                <option value="ar">Arabic</option>
+                <option value="pt">Portuguese</option>
+                <option value="ru">Russian</option>
+                <option value="hi">Hindi</option>
+              </select>
+            </div>
+            <textarea id="sourceText" class="translator-textarea" placeholder="Enter text to translate..."></textarea>
+            <div class="char-count"><span id="sourceCharCount">0</span> characters</div>
+          </div>
+          <div class="translator-controls">
+            <button class="swap-btn" id="swapLanguages" title="Swap languages">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            </button>
+            <button class="btn btn-primary" id="translateBtn">Translate</button>
+          </div>
+          <div class="translator-panel">
+            <div class="panel-header">
+              <select id="targetLang">
+                <option value="en">English</option>
+                <option value="zh">Chinese</option>
+                <option value="ja">Japanese</option>
+                <option value="ko">Korean</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="id" selected>Indonesian</option>
+                <option value="ar">Arabic</option>
+                <option value="pt">Portuguese</option>
+                <option value="ru">Russian</option>
+                <option value="hi">Hindi</option>
+              </select>
+            </div>
+            <div id="translationResult" class="translator-textarea result">
+              <span class="placeholder-text">Translation will appear here...</span>
+            </div>
+            <div class="translator-result-actions">
+              <button class="btn-icon" id="copyTranslation" title="Copy translation">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Document Analyzer Page -->
+      <div class="page" id="page-doc-analyzer">
+        <div class="page-header">
+          <h1>Document Analyzer</h1>
+        </div>
+        <div class="doc-analyzer-layout">
+          <div class="doc-input-panel">
+            <div class="panel-header"><span>Document Input</span></div>
+            <textarea id="docInput" class="doc-textarea" placeholder="Paste your document content here (articles, papers, reports, code documentation...)"></textarea>
+            <div class="doc-actions">
+              <button class="btn btn-primary" id="summarizeDoc">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>
+                Summarize
+              </button>
+              <button class="btn btn-secondary" id="extractKeyPoints">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                Key Points
+              </button>
+              <button class="btn btn-secondary" id="generateQA">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                Generate Q&A
+              </button>
+              <button class="btn btn-secondary" id="rewriteDoc">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Rewrite
+              </button>
+            </div>
+          </div>
+          <div class="doc-result-panel">
+            <div class="panel-header">
+              <span>Analysis Result</span>
+              <button class="btn-icon" id="copyDocResult" title="Copy result">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+            <div id="docResult" class="result-content">
+              <div class="result-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <p>Paste a document and select an analysis action</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Analyzer Page -->
+      <div class="page" id="page-image-analyzer">
+        <div class="page-header">
+          <h1>Image Analyzer</h1>
+          <div class="header-actions">
+            <select class="model-select" id="imageModel">
+              <option value="mimo-v2.5">V2.5 (Multimodal)</option>
+              <option value="mimo-v2-omni">V2 Omni</option>
+            </select>
+          </div>
+        </div>
+        <div class="image-analyzer-layout">
+          <div class="image-upload-panel">
+            <div class="panel-header"><span>Upload Image</span></div>
+            <div class="image-drop-zone" id="imageDropZone">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <p>Drag & drop image or click to browse</p>
+              <p class="small">Supports JPG, PNG, GIF, WebP</p>
+              <input type="file" id="imageInput" accept="image/*" hidden />
+            </div>
+            <div id="imagePreview" class="image-preview" hidden>
+              <img id="previewImg" alt="Preview" />
+              <button class="btn btn-sm" id="removeImage">Remove</button>
+            </div>
+            <textarea id="imagePrompt" class="image-prompt-input" placeholder="Ask a question about the image (optional)..."></textarea>
+            <div class="image-actions">
+              <button class="btn btn-primary" id="analyzeImage">Analyze Image</button>
+              <button class="btn btn-secondary" id="describeImage">Describe</button>
+              <button class="btn btn-secondary" id="extractTextImage">Extract Text (OCR)</button>
+            </div>
+          </div>
+          <div class="image-result-panel">
+            <div class="panel-header">
+              <span>Analysis Result</span>
+              <button class="btn-icon" id="copyImageResult" title="Copy result">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+            <div id="imageResult" class="result-content">
+              <div class="result-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <p>Upload an image and select an analysis action</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Writing Assistant Page -->
+      <div class="page" id="page-writing">
+        <div class="page-header">
+          <h1>Writing Assistant</h1>
+        </div>
+        <div class="writing-layout">
+          <div class="writing-form-panel">
+            <div class="panel-header"><span>Content Settings</span></div>
+            <div style="padding:16px;overflow-y:auto;flex:1">
+              <div class="form-group">
+                <label for="writingMode">Content Type</label>
+                <select id="writingMode"></select>
+              </div>
+              <div id="writingForm"></div>
+              <div style="margin-top:16px;display:flex;gap:8px">
+                <button class="btn btn-primary" id="generateWriting">Generate Content</button>
+              </div>
+            </div>
+          </div>
+          <div class="writing-result-panel">
+            <div class="panel-header">
+              <span>Generated Content</span>
+              <div style="display:flex;gap:4px">
+                <button class="btn-icon" id="copyWritingResult" title="Copy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                <button class="btn-icon" id="exportWritingResult" title="Export"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+              </div>
+            </div>
+            <div id="writingResult" class="result-content">
+              <div class="result-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                <p>Select content type, fill in the fields, and generate</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TTS Page -->
+      <div class="page" id="page-tts">
+        <div class="page-header">
+          <h1>Text-to-Speech</h1>
+          <div class="header-actions"><span class="badge">MiMo V2 TTS</span></div>
+        </div>
+        <div class="tts-layout">
+          <div class="tts-input-panel">
+            <div class="panel-header"><span>Text Input</span></div>
+            <textarea id="ttsInput" class="tts-textarea" placeholder="Enter text to convert to speech..."></textarea>
+            <div class="tts-controls">
+              <div class="form-group" style="flex:1">
+                <label>Voice</label>
+                <select id="ttsVoice"></select>
+              </div>
+              <div class="form-group" style="width:120px">
+                <label>Speed</label>
+                <select id="ttsSpeed">
+                  <option value="0.5">0.5x</option>
+                  <option value="0.75">0.75x</option>
+                  <option value="1.0" selected>1.0x</option>
+                  <option value="1.25">1.25x</option>
+                  <option value="1.5">1.5x</option>
+                  <option value="2.0">2.0x</option>
+                </select>
+              </div>
+            </div>
+            <div style="padding:12px 16px;display:flex;gap:8px;align-items:center;border-top:1px solid var(--border)">
+              <button class="btn btn-primary" id="ttsGenerate"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Generate Speech</button>
+              <span style="font-size:12px;color:var(--text-muted)"><span id="ttsCharCount">0</span> characters</span>
+            </div>
+            <div id="ttsAudioContainer" hidden style="padding:16px;border-top:1px solid var(--border)">
+              <audio id="ttsAudioPlayer" controls style="width:100%"></audio>
+              <button class="btn btn-sm btn-secondary" id="ttsDownload" style="margin-top:8px">Download MP3</button>
+            </div>
+          </div>
+          <div class="tts-history-panel">
+            <div class="panel-header"><span>History</span></div>
+            <div id="ttsHistoryList" style="overflow-y:auto;flex:1"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prompt Library Page -->
+      <div class="page" id="page-prompts">
+        <div class="page-header">
+          <h1>Prompt Library</h1>
+          <div class="header-actions">
+            <input type="text" id="promptSearch" placeholder="Search prompts..." style="width:200px" />
+            <select id="promptCategory">
+              <option value="all">All Categories</option>
+              <option value="coding">Coding</option>
+              <option value="writing">Writing</option>
+              <option value="analysis">Analysis</option>
+              <option value="productivity">Productivity</option>
+              <option value="learning">Learning</option>
+              <option value="creative">Creative</option>
+            </select>
+          </div>
+        </div>
+        <div id="promptLibraryContainer" class="prompt-library-container"></div>
+      </div>
+
+      <!-- JSON Tools Page -->
+      <div class="page" id="page-json">
+        <div class="page-header">
+          <h1>JSON Tools</h1>
+        </div>
+        <div class="json-layout">
+          <div class="json-input-panel">
+            <div class="panel-header"><span>Input</span></div>
+            <textarea id="jsonInput" class="code-textarea" placeholder='Paste your JSON here...'></textarea>
+            <div style="padding:12px 16px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--border)">
+              <button class="btn btn-primary" id="jsonFormat">Format</button>
+              <button class="btn btn-secondary" id="jsonMinify">Minify</button>
+              <button class="btn btn-secondary" id="jsonValidate">Validate</button>
+              <button class="btn btn-secondary" id="jsonFix">Fix with AI</button>
+              <button class="btn btn-secondary" id="jsonToCsv">To CSV</button>
+              <button class="btn btn-secondary" id="jsonToYaml">To YAML</button>
+            </div>
+            <div id="jsonStatus" style="padding:8px 16px;font-size:12px;border-top:1px solid var(--border)"><span class="text-muted">Enter JSON to get started</span></div>
+          </div>
+          <div class="json-output-panel">
+            <div class="panel-header">
+              <span>Output</span>
+              <button class="btn-icon" id="copyJsonResult" title="Copy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+            </div>
+            <div id="jsonOutput" class="result-content">
+              <div class="result-placeholder"><p>Paste JSON and select an action</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Regex Helper Page -->
+      <div class="page" id="page-regex">
+        <div class="page-header">
+          <h1>Regex Helper</h1>
+        </div>
+        <div class="regex-layout">
+          <div class="regex-input-panel">
+            <div class="panel-header"><span>Pattern Builder</span></div>
+            <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+              <div class="form-group">
+                <label>Regex Pattern</label>
+                <div style="display:flex;gap:8px">
+                  <input type="text" id="regexPattern" placeholder="Enter regex pattern..." style="flex:1;font-family:var(--font-mono)" />
+                  <input type="text" id="regexFlags" placeholder="gi" style="width:60px;font-family:var(--font-mono)" value="g" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Test String</label>
+                <textarea id="regexTestString" rows="5" placeholder="Enter text to test against..."></textarea>
+              </div>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-primary" id="regexTest">Test</button>
+                <button class="btn btn-secondary" id="regexExplain">Explain with AI</button>
+              </div>
+              <div class="form-group">
+                <label>Generate from Description</label>
+                <div style="display:flex;gap:8px">
+                  <input type="text" id="regexGenerateInput" placeholder="e.g., Match all email addresses" style="flex:1" />
+                  <button class="btn btn-secondary" id="regexGenerate">Generate</button>
+                </div>
+              </div>
+              <div>
+                <label style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;display:block">Common Patterns</label>
+                <div id="regexCommonPatterns" class="common-patterns-grid"></div>
+              </div>
+            </div>
+            <div style="padding:8px 16px;border-top:1px solid var(--border);font-size:13px;color:var(--text-muted)" id="regexMatchCount">0 matches</div>
+          </div>
+          <div class="regex-result-panel">
+            <div class="panel-header"><span>Results</span></div>
+            <div id="regexResult" class="result-content"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Page -->
+      <div class="page" id="page-dashboard">
+        <div class="page-header">
+          <h1>Usage Dashboard</h1>
+          <div class="header-actions">
+            <button class="btn btn-outline" id="exportDashboard">Export Data</button>
+            <button class="btn btn-outline" id="clearDashboard">Clear Stats</button>
+          </div>
+        </div>
+        <div id="dashboardContainer" class="dashboard-container"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/code-assistant.js"></script>
+  <script src="js/translator.js"></script>
+  <script src="js/doc-analyzer.js"></script>
+  <script src="js/image-analyzer.js"></script>
+  <script src="js/writing-assistant.js"></script>
+  <script src="js/tts.js"></script>
+  <script src="js/prompt-library.js"></script>
+  <script src="js/json-formatter.js"></script>
+  <script src="js/regex-helper.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
